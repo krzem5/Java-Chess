@@ -1,3 +1,3 @@
 @echo off
 cls
-python build.py --run
+python build.py %*

@@ -16,12 +16,20 @@ else:
 	os.mkdir("build")
 cd=os.getcwd()
 os.chdir("src")
-if (subprocess.run(["javac","-d","../build","com/krzem/chess/Main.java"]).returncode!=0 or subprocess.run(["jar","cvmf","../manifest.mf","../build/chess.jar","-C","../build","*"]).returncode!=0):
+jfl=[]
+for r,_,fl in os.walk("."):
+	for f in fl:
+		if (f[-5:]==".java"):
+			jfl.append(os.path.join(r,f))
+if (subprocess.run(["javac","-d","../build"]+jfl).returncode!=0):
 	sys.exit(1)
 os.chdir(cd)
+cfl=[]
 for r,_,fl in os.walk("build"):
 	for f in fl:
-		if (f!="chess.jar"):
-			os.remove(os.path.join(r,f))
+		if (f[-6:]==".class"):
+			cfl.append(os.path.join(r,f))
+if (subprocess.run(["jar","cvmf","manifest.mf","build/chess.jar"]+cfl).returncode!=0):
+	sys.exit(1)
 if ("--run" in sys.argv):
 	subprocess.run(["java","-jar","build/chess.jar"])

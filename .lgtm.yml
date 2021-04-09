@@ -12,7 +12,7 @@ extraction:
     index:
       build_command:
         - python3.8 build.py
-      java_version: 8
+      java_version: 1.8
       xml_mode: disabled
   python:
     python_setup:
