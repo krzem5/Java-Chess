@@ -14,6 +14,7 @@ import java.util.Random;
 
 
 public class AI extends Constants{
+	private static Random _cls_rand=new Random();
 	public Main cls;
 	public Board b;
 	private boolean _first=true;
@@ -33,7 +34,7 @@ public class AI extends Constants{
 		ArrayList<int[]> pm=this._possible_moves(this.b.board,0);
 		if (this._first==true){
 			this._first=false;
-			this.b._mv=pm.get(new Random().nextInt(pm.size()));
+			this.b._mv=pm.get(_cls_rand.nextInt(pm.size()));
 			return;
 		}
 		this._scl.clear();
@@ -81,7 +82,6 @@ public class AI extends Constants{
 					it.remove();
 				}
 				this.b._mv=bm;
-				System.out.println(this.b._mv);
 			}
 		}
 	}
