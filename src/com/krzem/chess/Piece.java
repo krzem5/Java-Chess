@@ -34,6 +34,7 @@ public class Piece extends Constants{
 
 
 
+	@Override
 	public Piece clone(){
 		return new Piece(this.cls,this.b,this.cl,this.type,this.x,this.y);
 	}
