@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+import zipfile
 
 
 
@@ -24,12 +25,13 @@ for r,_,fl in os.walk("."):
 if (subprocess.run(["javac","-d","../build"]+jfl).returncode!=0):
 	sys.exit(1)
 os.chdir(cd)
-cfl=[]
-for r,_,fl in os.walk("build"):
-	for f in fl:
-		if (f[-6:]==".class"):
-			cfl.append(os.path.join(r,f))
-if (subprocess.run(["jar","cvmf","manifest.mf","build/chess.jar"]+cfl).returncode!=0):
-	sys.exit(1)
+with zipfile.ZipFile("build/chess.jar","w") as zf:
+	print("Writing: META-INF/MANIFEST.MF")
+	zf.write("manifest.mf",arcname="META-INF/MANIFEST.MF")
+	for r,_,fl in os.walk("build"):
+		for f in fl:
+			if (f[-6:]==".class"):
+				print(f"Writing: {os.path.join(r,f)[6:].replace(chr(92),'/')}")
+				zf.write(os.path.join(r,f),os.path.join(r,f)[6:])
 if ("--run" in sys.argv):
 	subprocess.run(["java","-jar","build/chess.jar"])
