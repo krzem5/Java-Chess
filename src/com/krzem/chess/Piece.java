@@ -123,7 +123,6 @@ public class Piece extends Constants{
 
 
 
-
 	public void draw_moves(Graphics2D g){
 		if (this._sel==true){
 			g.setColor(PIECE_NORMAL_MOVE_COLOR);
